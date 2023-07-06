@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { BiMailSend } from "react-icons/bi";
 import styles from "./Form.module.css";
-import { studArr } from "../../redux/er";
 
 export const Form = () => {
   const [author, setAuthor] = useState("");
@@ -10,12 +9,24 @@ export const Form = () => {
 
   const onHandleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+
+    switch (name) {
+      case "name":
+        setAuthor(value);
+        break;
+
+      case "text":
+        setContent(value);
+        break;
+
+      default:
+        break;
+    }
   };
 
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = async (e) => {
     e.preventDefault();
-    studArr();
+
     setAuthor("");
     setContent("");
   };
@@ -47,9 +58,10 @@ export const Form = () => {
 
         <button className={styles.formBtn}>
           <BiMailSend className={styles.icon} />
-          Send
+          {isLoading ? "isLoading" : "Send"}
         </button>
       </form>
+      {isError && <h2>Упс, помилка. Спробуйте перезавантажити сторінку 😔</h2>}
     </div>
   );
 };
